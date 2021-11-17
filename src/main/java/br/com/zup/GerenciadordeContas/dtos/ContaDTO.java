@@ -1,5 +1,7 @@
 package br.com.zup.GerenciadordeContas.dtos;
 
+import br.com.zup.GerenciadordeContas.Enums.TipoDeConta;
+
 import java.time.LocalDate;
 
 public class ContaDTO {

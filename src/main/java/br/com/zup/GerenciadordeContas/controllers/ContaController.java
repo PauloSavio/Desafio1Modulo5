@@ -16,42 +16,26 @@ public class ContaController {
 
     @Autowired
     private ContaService contaService;
-    private List<ContaDTO> boletos = new ArrayList<>();
+
 
     @GetMapping
     public List<ContaDTO> exibirContas() {
-        return boletos;
+        return contaService.pegarTodasAsContas();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void cadastrarConta(@RequestBody ContaDTO contaDTO) {
-        boletos.add(contaDTO);
+        contaService.salvarConta(contaDTO);
     }
 
     @GetMapping("/{nomeDaConta}")
     public ContaDTO exibirContaPorNome(@PathVariable String nomeDaConta) {
-        for (ContaDTO conta : boletos) {
-            if (conta.getNome().equalsIgnoreCase(nomeDaConta)) {
-                return conta;
-            }
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return contaService.buscarConta(String nomeDaConta);
     }
 
     @PutMapping("/{nomeDaConta}")
     public ContaDTO atualizarConta(PathVariable String nomeDaConta, @RequestBody ContaDTO contaDTO) {
-        ContaDTO contaAtualizada = null;
-        for (ContaDTO conta : boletos) {
-            if (conta.getNome().equalsIgnoreCase(nomeDaConta)) {
-                contaAtualizada = conta;
-            }
-        }
-        if (contaAtualizada == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        contaAtualizada.setTipoDeConta(contaDTO.getTipoDeConta());
-
-        return contaAtualizada;
+        return contaService.alterarConta(nomeDaConta, contaDTO);
     }
 }

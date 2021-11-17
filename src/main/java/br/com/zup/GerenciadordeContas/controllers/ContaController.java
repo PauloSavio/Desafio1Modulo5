@@ -45,6 +45,8 @@ public class ContaController {
         if( contaAtualizada == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        contaAtualizada.get
+        contaAtualizada.setTipoDeConta(contaDTO.getTipoDeConta());
+
+        return contaAtualizada;
     }
 }

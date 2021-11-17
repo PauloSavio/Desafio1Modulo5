@@ -1,6 +1,8 @@
 package br.com.zup.GerenciadordeContas.controllers;
 
+import br.com.zup.GerenciadordeContas.Services.ContaService;
 import br.com.zup.GerenciadordeContas.dtos.ContaDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,6 +13,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/contas")
 public class ContaController {
+
+    @Autowired
+    private ContaService contaService;
     private List<ContaDTO> boletos = new ArrayList<>();
 
     @GetMapping
@@ -35,14 +40,14 @@ public class ContaController {
     }
 
     @PutMapping("/{nomeDaConta}")
-    public ContaDTO atualizarConta (PathVariable String nomeDaConta, @RequestBody ContaDTO contaDTO){
+    public ContaDTO atualizarConta(PathVariable String nomeDaConta, @RequestBody ContaDTO contaDTO) {
         ContaDTO contaAtualizada = null;
-        for (ContaDTO conta : boletos){
-            if (conta.getNome().equalsIgnoreCase(nomeDaConta)){
+        for (ContaDTO conta : boletos) {
+            if (conta.getNome().equalsIgnoreCase(nomeDaConta)) {
                 contaAtualizada = conta;
             }
         }
-        if( contaAtualizada == null){
+        if (contaAtualizada == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         contaAtualizada.setTipoDeConta(contaDTO.getTipoDeConta());

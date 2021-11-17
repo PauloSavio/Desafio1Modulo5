@@ -24,7 +24,7 @@ public class ContaController {
         boletos.add(contaDTO);
     }
 
-    @GetMapping("/(idDaConta)")
+    @GetMapping("/{nomeDaConta}")
     public ContaDTO exibirContaPorNome(@PathVariable String nomeDaConta) {
         for (ContaDTO conta : boletos) {
             if (conta.getNome().equalsIgnoreCase(nomeDaConta)) {
@@ -32,5 +32,19 @@ public class ContaController {
             }
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/{nomeDaConta}")
+    public ContaDTO atualizarConta (PathVariable String nomeDaConta, @RequestBody ContaDTO contaDTO){
+        ContaDTO contaAtualizada = null;
+        for (ContaDTO conta : boletos){
+            if (conta.getNome().equalsIgnoreCase(nomeDaConta)){
+                contaAtualizada = conta;
+            }
+        }
+        if( contaAtualizada == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        contaAtualizada.get
     }
 }
